@@ -197,19 +197,10 @@ MIDDLEWARE += [
 ]
 
 # dj-rest-auth settings (can be expanded)
-AUTH_USER_MODEL = 'users.CustomUser'
-
-ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+ACCOUNT_AUTHENTICATION_METHOD = "email"  # Use Email / Password authentication
+ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
-REST_USE_JWT = True
-
+ACCOUNT_EMAIL_VERIFICATION = "none" # Do not require email confirmation
 
 LOGIN_REDIRECT_URL = '/'     # Customize to your frontend/dashboard URL
 LOGOUT_REDIRECT_URL = '/'
@@ -246,24 +237,54 @@ SOCIALACCOUNT_PROVIDERS = {
 
 #------------------------------------------------
 #JWT AUTHENTICATIOSN TOKENS
-# settings.py
-from datetime import timedelta # import this library top of the settings.py file
 
-# put on your settings.py file below INSTALLED_APPS
+from datetime import timedelta
+
+# REST Framework & JWT settings
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
 
+# Simple JWT settings (customize as needed)
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
-    'SLIDING_TOKEN_LIFETIME': timedelta(days=30),
-    'SLIDING_TOKEN_REFRESH_LIFETIME_LATE_USER': timedelta(days=1),
-    'SLIDING_TOKEN_LIFETIME_LATE_USER': timedelta(days=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
+# Google provider settings (use your .env or hardcode for test)
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': os.getenv('GOOGLE_CLIENT_ID', 'your-google-client-id'),
+            'secret': os.getenv('GOOGLE_CLIENT_SECRET', 'your-google-client-secret'),
+            'key': '',
+        }
+    }
+}
+
+# dj-rest-auth
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "_auth",  # Name of access token cookie
+    "JWT_AUTH_REFRESH_COOKIE": "_refresh", # Name of refresh token cookie
+    "JWT_AUTH_HTTPONLY": False,  # Makes sure refresh token is sent
+}
+
+# dj-rest-auth registration settings
+REST_USE_JWT = True
+DJREST_AUTH_REGISTER_SERIALIZER = 'dj_rest_auth.registration.serializers.RegisterSerializer'
