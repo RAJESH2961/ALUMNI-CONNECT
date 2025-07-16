@@ -43,8 +43,8 @@ class CustomUser(AbstractUser):
     badges = models.JSONField(default=list, blank=True)
 
     # Flags
-    is_approved = models.BooleanField(default=False)
-    profile_completed = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=False)  # type: ignore
+    profile_completed = models.BooleanField(default=False)  # type: ignore
     date_joined = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

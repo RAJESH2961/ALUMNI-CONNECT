@@ -6,23 +6,21 @@ from .models import CustomUser
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
 
-    # Show in user list
-    list_display = ('email', 'username', 'role', 'is_staff', 'is_active', 'is_approved')
+    list_display = ('email', 'username', 'role', 'is_active', 'is_approved', 'profile_completed')
+    list_filter = ('is_active', 'is_approved', 'role')
 
-    # Fields shown in detail view (exclude non-editable fields)
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
-        ('Personal Info', {'fields': ('role', 'school', 'specialization', 'batch_year')}),
-        ('Profile', {'fields': ('bio', 'profile_image', 'linkedin_url', 'github_url')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser', 'groups', 'user_permissions', 'is_approved')}),
-        # DO NOT add 'date_joined' here
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Personal Info', {'fields': ('first_name', 'last_name', 'role', 'school', 'specialization', 'batch_year', 'bio', 'profile_image', 'linkedin_url', 'github_url')}),
+        ('Approval Info', {'fields': ('is_approved', 'profile_completed')}),
     )
 
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'username', 'password1', 'password2', 'role', 'is_active', 'is_staff', 'is_approved')}
-        ),
+            'fields': ('email', 'username', 'password1', 'password2', 'role', 'is_approved'),
+        }),
     )
 
     search_fields = ('email', 'username')
