@@ -42,15 +42,18 @@ INSTALLED_APPS = [
     # 3rd Party
     'rest_framework',
     'corsheaders',
+    # 'rest_framework',
     'rest_framework.authtoken',
-    'dj_rest_auth',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'dj_rest_auth.registration',
+    
+    # 'rest_framework.authtoken',
+    # 'dj_rest_auth',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
+    # 'dj_rest_auth.registration',
     'channels',
-
+    
     # Your Apps
     'users',
     'posts',
@@ -78,7 +81,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
-    # Add this line:
+    # Add 
     'allauth.account.middleware.AccountMiddleware',
 ]
 
@@ -160,3 +163,128 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Custom user
 AUTH_USER_MODEL = 'users.CustomUser'
 ASGI_APPLICATION = 'alumconnect.asgi.application'
+# ────────────────────────────────────────────────────────────────
+# Google Authentication & Allauth Configuration
+# ────────────────────────────────────────────────────────────────
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Load variables from .env
+
+# Required for allauth
+INSTALLED_APPS += [
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    
+]
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+# Add middleware if not already present
+MIDDLEWARE += [
+    'allauth.account.middleware.AccountMiddleware',
+]
+
+# dj-rest-auth settings (can be expanded)
+ACCOUNT_AUTHENTICATION_METHOD = "email"  # Use Email / Password authentication
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "none" # Do not require email confirmation
+
+LOGIN_REDIRECT_URL = '/'     # Customize to your frontend/dashboard URL
+LOGOUT_REDIRECT_URL = '/'
+
+# Optional: Allow login via username or email
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
+# Google OAuth credentials pulled from environment
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
+GOOGLE_OAUTH_CALLBACK_URL = os.getenv("GOOGLE_OAUTH_CALLBACK_URL")
+
+
+# django-allauth (social)
+# Authenticate if local account with this email address already exists
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+# Connect local account and social account if local account with that email address already exists
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APPS": [
+            {
+                "client_id": GOOGLE_CLIENT_ID,
+                "secret": GOOGLE_CLIENT_SECRET,
+                "key": "",
+            },
+        ],
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
+}
+
+#------------------------------------------------
+#JWT AUTHENTICATIOSN TOKENS
+
+from datetime import timedelta
+
+# REST Framework & JWT settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+# Simple JWT settings (customize as needed)
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+# Google provider settings (use your .env or hardcode for test)
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': os.getenv('GOOGLE_CLIENT_ID', 'your-google-client-id'),
+            'secret': os.getenv('GOOGLE_CLIENT_SECRET', 'your-google-client-secret'),
+            'key': '',
+        }
+    }
+}
+
+# dj-rest-auth
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "_auth",  # Name of access token cookie
+    "JWT_AUTH_REFRESH_COOKIE": "_refresh", # Name of refresh token cookie
+    "JWT_AUTH_HTTPONLY": False,  # Makes sure refresh token is sent
+}
+
+# dj-rest-auth registration settings
+REST_USE_JWT = True
+DJREST_AUTH_REGISTER_SERIALIZER = 'dj_rest_auth.registration.serializers.RegisterSerializer'
