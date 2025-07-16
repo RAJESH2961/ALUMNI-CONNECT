@@ -1,22 +1,37 @@
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from dj_rest_auth.registration.views import SocialLoginView
-from rest_framework import generics, permissions, status
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import CustomUser
-from .serializers import CustomUserSerializer
+from rest_framework import status
+from django.contrib.auth import authenticate, get_user_model
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 
-class GoogleLogin(SocialLoginView):
-    adapter_class = GoogleOAuth2Adapter
+from .serializers import UserProfileSerializer
 
-class ProfileUpdateView(generics.UpdateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+User = get_user_model()
 
-    def get_object(self):
-        return self.request.user
+class LoginView(APIView):
+    permission_classes = []
 
-    def update(self, request, *args, **kwargs):
-        if not request.user.is_approved:
-            return Response({'detail': 'Profile editing is not allowed until admin approval.'}, status=status.HTTP_403_FORBIDDEN)
-        return super().update(request, *args, **kwargs)
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+        if not email or not password:
+            return Response({"detail": "Email and password required."}, status=400)
+        user = authenticate(request, email=email, password=password)
+        if user:
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                "access": str(refresh.access_token),
+                "refresh": str(refresh)
+            })
+        return Response({"detail": "Invalid credentials."}, status=401)
+
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        if not user.is_approved:
+            return Response({"detail": "User not approved by admin."}, status=403)
+        serializer = UserProfileSerializer(user)
+        return Response(serializer.data)

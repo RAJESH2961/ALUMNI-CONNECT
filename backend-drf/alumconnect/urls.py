@@ -15,17 +15,55 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from dj_rest_auth.registration.views import SocialLoginView
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth import authenticate, get_user_model
+from rest_framework_simplejwt.tokens import RefreshToken
+
+User = get_user_model()
+
+class ProtectedView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        return Response({"message": f"Hello, {request.user.email}!"})
+
+class SignupView(APIView):
+    permission_classes = []
+
+    def post(self, request):
+        email = request.data.get('email')
+        username = request.data.get('username')
+        password = request.data.get('password')
+        if not email or not username or not password:
+            return Response({'detail': 'All fields are required.'}, status=status.HTTP_400_BAD_REQUEST)
+        if User.objects.filter(username=username).exists():
+            return Response({'username': 'Username already exists.'}, status=status.HTTP_400_BAD_REQUEST)
+        if User.objects.filter(email=email).exists():
+            return Response({'email': 'Email already exists.'}, status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.create_user(username=username, email=email, password=password)
+        return Response({'detail': 'Signup successful! Please wait for admin approval.'}, status=status.HTTP_201_CREATED)
+
+class LoginView(APIView):
+    permission_classes = []
+
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'access': str(refresh.access_token),
+                'refresh': str(refresh)
+            })
+        return Response({'detail': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/auth/', include('dj_rest_auth.urls')),  # login/logout/password change/reset
-    path('api/v1/auth/registration/', include('dj_rest_auth.registration.urls')),  # registration and social login
-    path('accounts/', include('allauth.urls')),  # for Google OAuth
-    path('', include('users.urls')),
+    path('api/', include('users.urls')),  # All auth and user endpoints
+    path('api/protected/', ProtectedView.as_view(), name='protected'),  # Example protected endpoint
 ]
 
 
