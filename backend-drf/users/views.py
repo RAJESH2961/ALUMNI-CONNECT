@@ -15,16 +15,21 @@ class LoginView(APIView):
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
-        if not email or not password:
-            return Response({"detail": "Email and password required."}, status=400)
-        user = authenticate(request, email=email, password=password)
-        if user:
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                "access": str(refresh.access_token),
-                "refresh": str(refresh)
-            })
-        return Response({"detail": "Invalid credentials."}, status=401)
+
+        try:
+            user = User.objects.get(email=email)
+            if not user.check_password(password):
+                raise User.DoesNotExist
+        except User.DoesNotExist:
+            return Response({'detail': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        refresh = RefreshToken.for_user(user)
+        print("LOGIN SUCCESSFUL", flush=True)
+
+        return Response({
+            'access': str(refresh.access_token),
+            'refresh': str(refresh)
+        })
 
 class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
