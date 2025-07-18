@@ -31,7 +31,8 @@ const Register = () => {
     setLoading(true);
 
   try {
-    const response = await axios.post('http://localhost:8000/register/', form);
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_API}api/register/`, form);
+
     console.log("Response data:", response.data);
     // alert("Registration successful!");
     // set the error to blank once success
