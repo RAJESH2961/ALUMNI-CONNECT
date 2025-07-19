@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,16 +43,9 @@ INSTALLED_APPS = [
 
     # 3rd Party
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
-    'rest_framework.authtoken',
-    'dj_rest_auth',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'dj_rest_auth.registration',
-    'channels',
-
+    
     # Your Apps
     'users',
     'posts',
@@ -70,6 +65,7 @@ INSTALLED_APPS = [
 #     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 # ]
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -78,8 +74,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
-    # Add this line:
-    'allauth.account.middleware.AccountMiddleware',
+    # Add 
+    # 'allauth.account.middleware.AccountMiddleware',
 ]
 
 
@@ -159,4 +155,30 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #--------------------------------------
 #Custom user
 AUTH_USER_MODEL = 'users.CustomUser'
-ASGI_APPLICATION = 'alumconnect.asgi.application'
+# ────────────────────────────────────────────────────────────────
+# JWT AUTHENTICATIOSN TOKENS
+# ────────────────────────────────────────────────────────────────
+
+# REST Framework & JWT settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+# Simple JWT settings (customize as needed)
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # your Vite dev server
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
