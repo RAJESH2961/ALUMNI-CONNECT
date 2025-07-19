@@ -12,7 +12,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Personal Info', {'fields': ('first_name', 'last_name', 'role', 'school', 'specialization', 'batch_year', 'bio', 'profile_image', 'linkedin_url', 'github_url')}),
+        ('Personal Info', {'fields': ('first_name', 'last_name', 'role', 'school', 'specialization', 'batch_year', 'bio', 'profile_image', 'linkedin_url', 'github_url', 'portfolio_url')}),
         ('Approval Info', {'fields': ('is_approved', 'profile_completed')}),
     )
 
