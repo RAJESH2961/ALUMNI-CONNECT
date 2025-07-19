@@ -62,8 +62,10 @@ class LoginView(APIView):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('users.urls')),  # All auth and user endpoints
-    path('api/protected/', ProtectedView.as_view(), name='protected'),  # Example protected endpoint
+    path('api/', include('users.urls')),            # Auth & user management
+    path('api/posts/', include('posts.urls')),      # ✅ Posts app endpoints
+    path('api/protected/', ProtectedView.as_view(), name='protected'),
 ]
+
 
 
