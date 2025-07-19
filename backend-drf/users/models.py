@@ -37,6 +37,7 @@ class CustomUser(AbstractUser):
     bio = models.TextField(blank=True, null=True)
     profile_image = models.ImageField(upload_to='avatars/', null=True, blank=True)
     linkedin_url = models.URLField(blank=True, null=True)
+    portfolio_url = models.URLField(blank=True, null=True)
     github_url = models.URLField(blank=True, null=True)
 
     # Gamification

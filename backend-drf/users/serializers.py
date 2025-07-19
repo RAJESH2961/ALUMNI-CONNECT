@@ -28,7 +28,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = [
             "id", "email", "username", "role", "school",
             "specialization", "batch_year", "bio",
-            "profile_image", "linkedin_url", "github_url",
+            "profile_image", "linkedin_url", "github_url", "portfolio_url",
             "badges", "is_approved", "profile_completed", "date_joined"
         ]
 
