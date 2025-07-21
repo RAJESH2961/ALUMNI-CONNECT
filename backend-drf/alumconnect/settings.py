@@ -182,3 +182,21 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+# Email backend for Gmail SMTP
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = "grajesh2907@gmail.com"  # Set in your .env or environment
+# EMAIL_HOST_PASSWORD = "myrnnxhbhkqdtkfax"  # Set in your .env or environment
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+FRONTEND_URL = 'http://localhost:5173'  # Change to your frontend base URL
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'grajesh2961@gmail.com'
+EMAIL_HOST_PASSWORD = 'jhbzkiphybwgoknb'  # NOT your real Gmail password
+DEFAULT_FROM_EMAIL = 'grajesh2961@gmail.com'

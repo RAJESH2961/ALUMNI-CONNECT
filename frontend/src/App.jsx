@@ -4,7 +4,7 @@ import Header from './components/Header'
 import Main from './components/Main'
 import Footer from './components/Footer'
 // setting up things for ROuter
-import { BrowserRouter , Routes, Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Register from './components/Register'
 import Login from './components/Login'
 // Auth Provider to manage Login Status based on Token status in Local storage
@@ -14,25 +14,28 @@ import AuthProvider from './AuthProvider'
 
 import PrivateRoute from './PrivateRoute'
 import { PublicRoute } from './PublicRoute'
+import ActivateAccount from './ActivateAccount'
+
 PublicRoute
 function App() {
 
   return (
     <>
-    {/* Now the logges in status is accessible all the components */}
-    <AuthProvider> 
-    <BrowserRouter>
-    <Header/>
-    <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/register" element={ <PublicRoute><Register /></PublicRoute>} />
-      <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-      
-      <Route path="/profile" element={<PrivateRoute><Main /></PrivateRoute>} />
-    </Routes>
-    <Footer/>
-    </BrowserRouter>
-    </AuthProvider>
+      {/* Now the logges in status is accessible all the components */}
+      <AuthProvider>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+            <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+
+            <Route path="/profile" element={<PrivateRoute><Main /></PrivateRoute>} />
+            <Route path="/api/activate/:token" element={<ActivateAccount />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </AuthProvider>
     </>
   )
 }
