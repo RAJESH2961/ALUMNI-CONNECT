@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'messaging',
     'ai',
     'adminpanel',
+    'events',
 ]
 
 
