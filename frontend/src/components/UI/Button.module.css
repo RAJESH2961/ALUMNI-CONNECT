@@ -1,0 +1,91 @@
+.fancyButton {
+  position: relative;
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFDEDE;
+  background: linear-gradient(135deg, #CF0F47, #FF0B55);
+  border: 2px solid transparent;
+  border-radius: 6px;
+  text-decoration: none; /* Remove underline */
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 6px rgba(255, 11, 85, 0.4);
+}
+
+/* Prevent inherited underline */
+.fancyButton span {
+  text-decoration: none;
+}
+
+.fancyButton:hover {
+  transform: scale(1.07);
+  background: linear-gradient(135deg, #FF0B55, #CF0F47);
+  box-shadow: 0 0 20px rgba(255, 11, 85, 0.7), 0 0 10px rgba(255, 222, 222, 0.2);
+}
+
+/* Lightning border flash */
+.fancyButton::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(120deg, #CF0F47, #FF0B55, #CF0F47);
+  background-size: 300% 300%;
+  z-index: 0;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: lightningBorder 1.2s linear infinite paused;
+}
+
+.fancyButton:hover::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes lightningBorder {
+  0% { background-position: 0% 50%; opacity: 0.2; }
+  25% { opacity: 1; }
+  50% { background-position: 100% 50%; opacity: 0.4; }
+  75% { opacity: 1; }
+  100% { background-position: 0% 50%; opacity: 0.2; }
+}
+
+/* Lightning flicker */
+.fancyButton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+  transform: skewX(-20deg);
+  z-index: 1;
+  transition: all 0.4s ease-in-out;
+  pointer-events: none;
+}
+
+.fancyButton:hover::after {
+  animation: flashShine 0.7s forwards;
+}
+
+@keyframes flashShine {
+  0% { left: -75%; opacity: 0; }
+  50% { left: 20%; opacity: 1; }
+  100% { left: 130%; opacity: 0; }
+}
+
+.text {
+  position: relative;
+  z-index: 2;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  color: #FFDEDE;
+}
+
