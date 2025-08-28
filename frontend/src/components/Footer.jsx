@@ -54,6 +54,7 @@ const Footer = () => {
             margin-bottom: 1rem;
           }
         `}</style>
+        <h1>Hello World!</h1>
       </footer>
     </>
   )
