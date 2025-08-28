@@ -1,7 +1,12 @@
+<<<<<<< HEAD
+=======
+# Django and core framework
+>>>>>>> 7df158f863d962c97da4b5eb08ac24723cc5815e
 Django==4.1.13
 djangorestframework==3.14.0
 django-cors-headers==4.3.1
 channels==4.0.0
+<<<<<<< HEAD
 dj-rest-auth==2.2.6
 django-allauth==0.54.0
 requests-oauthlib==1.3.1
@@ -9,3 +14,25 @@ djangorestframework-simplejwt==5.3.1
 python-dotenv==1.0.1
 django-environ
 asgiref==3.6.0
+=======
+
+# Authentication
+dj-rest-auth==2.2.6
+django-allauth==0.54.0
+requests-oauthlib==1.3.1
+
+# Environment variables (for loading .env)
+python-dotenv==1.0.1
+
+# ASGI support (auto-installed with Django/channels, pinned for stability)
+asgiref==3.6.0
+
+# requirements.txt
+Django==5.0.6                          
+djangorestframework==3.15.2
+djangorestframework-simplejwt==5.3.1   # JWT token implementation for DRF
+dj-rest-auth[with_social]==6.0.0       # REST API authentication utils
+
+
+django-environ
+>>>>>>> 7df158f863d962c97da4b5eb08ac24723cc5815e

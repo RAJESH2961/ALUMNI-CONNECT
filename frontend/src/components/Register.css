@@ -1,5 +1,9 @@
 .register-container {
+<<<<<<< HEAD
   min-height: 100vh;
+=======
+  min-height: 70vh;
+>>>>>>> 7df158f863d962c97da4b5eb08ac24723cc5815e
   background-color: #000000;
   display: flex;
   justify-content: center;
@@ -8,6 +12,7 @@
 }
 
 .register-form {
+<<<<<<< HEAD
   background: #111111; /* deeper black, less contrast than #1a1a1a */
   padding: 40px;
   border-radius: 16px;
@@ -15,19 +20,42 @@
   width: 100%;
   max-width: 400px;
   color: #FFDEDE;
+=======
+  background: #111111;
+  /* deeper black, less contrast than #1a1a1a */
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(255, 11, 85, 0.2);
+  /* subtle glow */
+  width: 100%;
+  max-width: 400px;
+  color: #FFDEDE;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+>>>>>>> 7df158f863d962c97da4b5eb08ac24723cc5815e
 }
 
 .form-title {
   font-size: 28px;
   margin-bottom: 25px;
   text-align: center;
+<<<<<<< HEAD
   color: #FF0B55; /* vivid but not too bright */
+=======
+  color: #FF0B55;
+  /* vivid but not too bright */
+>>>>>>> 7df158f863d962c97da4b5eb08ac24723cc5815e
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
+<<<<<<< HEAD
   margin-bottom: 20px;
+=======
+  margin-bottom: 0;
+>>>>>>> 7df158f863d962c97da4b5eb08ac24723cc5815e
 }
 
 .form-group label {
@@ -43,6 +71,11 @@
   background-color: #000000;
   color: #FFDEDE;
   transition: border 0.3s ease, box-shadow 0.3s ease;
+<<<<<<< HEAD
+=======
+  width: 100%;
+  box-sizing: border-box;
+>>>>>>> 7df158f863d962c97da4b5eb08ac24723cc5815e
 }
 
 .form-group input:focus {
@@ -51,6 +84,16 @@
   outline: none;
 }
 
+<<<<<<< HEAD
+=======
+.form-group small {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.875rem;
+  line-height: 1.2;
+}
+
+>>>>>>> 7df158f863d962c97da4b5eb08ac24723cc5815e
 .submit-btn {
   background: linear-gradient(135deg, #CF0F47, #FF0B55);
   border: none;
@@ -66,6 +109,10 @@
 .submit-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(255, 11, 85, 0.3);
+<<<<<<< HEAD
 }
 
 
+=======
+}
+>>>>>>> 7df158f863d962c97da4b5eb08ac24723cc5815e

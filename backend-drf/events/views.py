@@ -60,6 +60,7 @@ class EventRegisterView(APIView):
         event.registered_users.add(user)
 
         # ✅ Send email confirmation
+<<<<<<< HEAD
         subject = f"Registered for {event.title}"
         message = (
             f"Hi {user.username},\n\n"
@@ -71,6 +72,27 @@ class EventRegisterView(APIView):
             f"— Alumni Connect Team"
         )
 
+=======
+        subject = f"You're Registered for {event.title} at The Apollo University 🎓"
+
+        message = (
+            f"Dear {user.username},\n\n"
+            f"🎉 Thank you for registering for the upcoming event at *The Apollo University*.\n\n"
+            f"Here are your event details:\n\n"
+            f"📌 **Event:** {event.title}\n"
+            f"📅 **Date & Time:** {event.date.strftime('%A, %d %B %Y at %I:%M %p')}\n"
+            f"📍 **Location:** {event.location or 'To Be Announced'}\n"
+            f"📝 **About the Event:**\n{event.description}\n\n"
+            f"We’re excited to welcome you to this special gathering of alumni, students, and professionals.\n"
+            f"It’s a great opportunity to connect, collaborate, and celebrate the spirit of *The Apollo University* community.\n\n"
+            f"If you have any questions, feel free to contact the event coordinator.\n\n"
+            f"Warm regards,\n"
+            f"The Apollo University Alumni Team\n"
+            f"🌐 https://apollouniversity.edu.in/alumni/\n"
+        )
+
+
+>>>>>>> 7df158f863d962c97da4b5eb08ac24723cc5815e
         send_mail(
             subject,
             message,
