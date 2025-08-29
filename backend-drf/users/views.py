@@ -111,12 +111,37 @@ class ResendActivationView(APIView):
             return Response({'detail': 'No inactive user found with this email.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ActivationView(APIView):
-    permission_classes = [AllowAny]
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.core import signing
+from django.contrib.auth import get_user_model
 
-    def post(self, request):
-        serializer = ActivationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'detail': 'Account activated successfully.'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+User = get_user_model()
+
+class ActivationView(APIView):
+    permission_classes = []
+
+    def get(self, request, token):
+        try:
+            data = signing.loads(token, salt='user-activation', max_age=60*60*24)  # 24h expiry
+        except signing.SignatureExpired:
+            return Response({'detail': 'Activation link expired.'}, status=status.HTTP_400_BAD_REQUEST)
+        except signing.BadSignature:
+            return Response({'detail': 'Invalid activation link.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        email = data['email']
+        username = data['username']
+        password = data['password']
+
+        if User.objects.filter(email=email).exists():
+            return Response({'detail': 'User already activated.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.create_user(
+            email=email,
+            username=username,
+            password=password,
+            is_active=True
+        )
+        return Response({'detail': 'Account activated successfully!'}, status=status.HTTP_200_OK)
+

@@ -31,7 +31,7 @@ function App() {
             <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
 
             <Route path="/profile" element={<PrivateRoute><Main /></PrivateRoute>} />
-            <Route path="/api/activate/:token" element={<ActivateAccount />} />
+            <Route path="/activate/:token" element={<ActivateAccount />} />
           </Routes>
           <Footer />
         </BrowserRouter>
