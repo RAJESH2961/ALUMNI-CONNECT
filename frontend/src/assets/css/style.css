@@ -1,10 +1,8 @@
 body {
-    background-color: rgb(0, 0, 0);
-}
-
-/* #background for main */
-.bg-light-dark {
-    background-color: #2B3035;
+    margin: 0;
+    font-family: Inter, Roboto, 'Open Sans', system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
+    color: #1F2937;
+    background-color: #ffffff;
 }
 
 #root {
@@ -12,6 +10,24 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
+
 .container {
     flex: 1;
+}
+
+/* Buttons base override for Button component if needed */
+.btn-primary {
+    background-color: #2563EB;
+    color: #ffffff;
+}
+.btn-primary:hover {
+    filter: brightness(1.05);
+}
+
+.text-success {
+    color: #10B981;
+}
+
+.bg-muted {
+    background-color: #F3F4F6;
 }
