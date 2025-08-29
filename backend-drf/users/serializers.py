@@ -98,10 +98,15 @@ class RegisterSerializer(serializers.Serializer):
         from_email = settings.DEFAULT_FROM_EMAIL
         to_email = [data['email']]
 
-        # Send HTML email
-        msg = EmailMultiAlternatives(subject, "", from_email, to_email)
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        # Send HTML email with error handling
+        try:
+            msg = EmailMultiAlternatives(subject, "", from_email, to_email)
+            msg.attach_alternative(html_content, "text/html")
+            msg.send(fail_silently=False)
+        except Exception as exc:
+            # In development with console backend, this won't be hit. In production, log for debugging.
+            print(f"[Activation Email Error] to={to_email} error={exc}", flush=True)
+            raise serializers.ValidationError('Failed to send activation email. Please try again later.')
 
 class ActivationSerializer(serializers.Serializer):
     token = serializers.CharField()

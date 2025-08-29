@@ -1,6 +1,7 @@
-import React, { use, useState } from 'react';
+import React, { useState } from 'react';
 import './Register.css';
-import axios from 'axios'
+import axiosInstance from '../axiosInstance'
+import { useNavigate } from 'react-router-dom'
 
 // confetti effet
 import confetti from 'canvas-confetti';
@@ -11,6 +12,8 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const Register = () => {
   const [form, setForm] = useState({ username: '', email: '', password: '' });
+  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
 
     // Handling Errors
     // Error can be user name aldready exist
@@ -31,19 +34,13 @@ const Register = () => {
     setLoading(true);
 
   try {
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_BASE_API}api/register/`, form);
-
+    const response = await axiosInstance.post('/api/register/', form);
     console.log("Response data:", response.data);
-    // alert("Registration successful!");
-    // set the error to blank once success
     setErrors({});
-    // set success
-    // setSuccess(true);
-
-    // Launching confetti effect
-    confetti(); // 🎉 Launch confetti on success
-    // Optionally redirect or clear form
+    setSuccessMessage('Check your email to activate your account.');
+    confetti();
     setForm({ username: '', email: '', password: '' });
+    navigate('/activate/pending');
   } catch (error) {
     setErrors(error.response.data)
     if (error.response) {
@@ -62,6 +59,12 @@ const Register = () => {
     <div className="register-container">
       <form className="register-form" onSubmit={handleSubmit}>
         <h2 className="form-title">Create an account</h2>
+
+        {successMessage && (
+          <div className='alert alert-success' style={{ marginBottom: '1rem' }}>
+            {successMessage}
+          </div>
+        )}
 
         <div className="form-group">
           <label htmlFor="username">Username</label>

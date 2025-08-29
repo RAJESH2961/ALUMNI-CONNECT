@@ -10,17 +10,22 @@ export default function ActivateAccount() {
   const [activated, setActivated] = useState(false);
 
   useEffect(() => {
+    if (token === 'pending') {
+      setMessage('Check your email to activate your account.');
+      setActivated(false);
+      setLoading(false);
+      return;
+    }
     if (token) {
       axiosInstance
         .get(`/api/activate/${token}/`)
         .then((res) => {
           setMessage('✅ Account activated successfully! Redirecting to login...');
           setActivated(true);
-          setTimeout(() => navigate('/login'), 2000); // 2 sec delay
+          setTimeout(() => navigate('/login'), 2000);
         })
         .catch((err) => {
-          const errorMsg =
-            err.response?.data?.detail || '❌ Activation failed.';
+          const errorMsg = err.response?.data?.detail || '❌ Activation failed.';
           setMessage(errorMsg);
         })
         .finally(() => setLoading(false));
