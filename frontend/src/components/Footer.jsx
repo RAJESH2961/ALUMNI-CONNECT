@@ -54,6 +54,7 @@ const Footer = () => {
             margin-bottom: 1rem;
           }
         `}</style>
+        <h1>ALL RIGHTS RESERVED</h1>
       </footer>
     </>
   )
