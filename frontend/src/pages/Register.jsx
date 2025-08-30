@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './Register.css';
-import axiosInstance from '../axiosInstance'
+import '../components/Register.css';
+import axiosInstance from '../utils/axiosInstance';
 import { useNavigate } from 'react-router-dom'
 
 // confetti effet
@@ -13,16 +13,14 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 const Register = () => {
   const [form, setForm] = useState({ username: '', email: '', password: '' });
   const [successMessage, setSuccessMessage] = useState('');
+  const [loading,  setLoading] = useState(false);
   const navigate = useNavigate();
 
-    // Handling Errors
-    // Error can be user name aldready exist
-    // password is short
-    const [errors, setErrors] = useState({});
-    // const [success, setSuccess] = useState(false);
-
-    // Loading state
-    const [loading,  setLoading] = useState(false);
+  // Handling Errors
+  // Error can be user name aldready exist
+  // password is short
+  const [errors, setErrors] = useState({});
+  // const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -35,10 +33,18 @@ const Register = () => {
 
   try {
     const response = await axiosInstance.post('/api/register/', form);
+
     console.log("Response data:", response.data);
+    // alert("Registration successful!");
+    // set the error to blank once success
     setErrors({});
     setSuccessMessage('Check your email to activate your account.');
-    confetti();
+    // set success
+    // setSuccess(true);
+
+    // Launching confetti effect
+    confetti(); // 🎉 Launch confetti on success
+    // Optionally redirect or clear form
     setForm({ username: '', email: '', password: '' });
     navigate('/activate/pending');
   } catch (error) {

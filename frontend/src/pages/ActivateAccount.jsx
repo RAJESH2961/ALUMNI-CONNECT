@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import axiosInstance from './axiosInstance'; // make sure this has baseURL set
+import axiosInstance from '../utils/axiosInstance'; // make sure this has baseURL set
 
 export default function ActivateAccount() {
   const { token } = useParams();
