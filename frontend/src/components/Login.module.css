@@ -1,72 +1,74 @@
 .loginContainer {
-  min-height: 75vh;
-  background-color: #000000;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #F3F4F6;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  flex: 1;
 }
 
 .loginForm {
-  background-color: #111;
+  background-color: #ffffff;
   padding: 30px 35px;
   border-radius: 16px;
-  box-shadow: 0 0 20px rgba(255, 11, 85, 0.3);
-  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  max-width: 420px;
   width: 100%;
-  color: #FFDEDE;
+  color: #1F2937;
+  border: 1px solid #e5e7eb;
 }
 
 .loginTitle {
   font-size: 28px;
   text-align: center;
-  color: #FF0B55;
-  margin-bottom: 25px;
+  color: #1F2937;
+  margin-bottom: 22px;
+  font-weight: 800;
 }
 
 .formGroup {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   display: flex;
   flex-direction: column;
 }
 
 .formGroup label {
   margin-bottom: 8px;
-  color: #FFDEDE;
-  font-weight: 500;
+  color: #374151;
+  font-weight: 600;
 }
 
 .formGroup input {
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid #656262;
-  background-color: #000;
-  color: #FFDEDE;
-  transition: 0.3s ease;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #111827;
+  transition: 0.2s ease;
 }
 
 .formGroup input:focus {
-  border-color: #FF0B55;
+  border-color: #2563EB;
   outline: none;
-  box-shadow: 0 0 5px #FF0B55;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
 .loginBtn {
   margin-top: 10px;
-  background: linear-gradient(135deg, #CF0F47, #FF0B55);
-  color: #FFDEDE;
+  background-color: #2563EB;
+  color: #ffffff;
   padding: 12px;
   border: none;
   border-radius: 10px;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: 0.2s ease;
   width: 100%;
-  box-shadow: 0 0 10px rgba(255, 11, 85, 0.4);
   text-decoration: none;
 }
 
 .loginBtn:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 25px rgba(255, 11, 85, 0.7);
+  filter: brightness(1.05);
 }

@@ -1,62 +1,73 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faFacebookF, faLinkedinIn, faTwitter } from '@fortawesome/free-brands-svg-icons'
+
+const footerStyles = {
+  wrapper: {
+    backgroundColor: '#F3F4F6',
+    color: '#1F2937',
+    marginTop: 'auto',
+    borderTop: '1px solid #e5e7eb',
+    width: '100%'
+  },
+  container: {
+    maxWidth: '100vw',
+    margin: '0 auto',
+    padding: '24px 20px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: '20px',
+    flexWrap: 'wrap',
+    width: '100%'
+  },
+  brand: {
+    fontWeight: 700,
+    fontSize: '18px'
+  },
+  links: {
+    display: 'flex',
+    gap: '14px',
+    alignItems: 'center'
+  },
+  link: {
+    color: '#1F2937',
+    textDecoration: 'none',
+    fontSize: '14px'
+  },
+  social: {
+    display: 'flex',
+    gap: '10px'
+  },
+  iconBtn: {
+    width: '36px',
+    height: '36px',
+    borderRadius: '50%',
+    backgroundColor: '#2563EB',
+    color: '#ffffff',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+}
 
 const Footer = () => {
   return (
-    <>
-      <footer className="footer py-3 my-3">
-        <hr className="border-bottom" />
-        <p className="text-light text-center">
-          Built with Django and React.js with{' '}
-          <FontAwesomeIcon icon={faHeart} className="heart-icon" style={{ color: '#ff0000' }} /> by Rajesh Gangadharam
-        </p>
-
-        {/* Internal CSS */}
-        <style>{`
-          // .footer {
-          //   background-color: #111;
-          //   color: #fff;
-          //   padding: 1rem 0;
-          //   text-align: center;
-          // }
-
-          .border-bottom {
-            border-color: rgba(255, 255, 255, 0.2);
-          }
-
-          .text-light {
-            color: #f8f9fa;
-          }
-
-          .text-center {
-            text-align: center;
-          }
-
-          .heart-icon {
-            animation: pulse 1.5s infinite;
-            margin: 0 4px;
-          }
-
-          @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-          }
-
-          .py-3 {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-          }
-
-          .my-3 {
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-          }
-        `}</style>
-        <h1>ALL RIGHTS RESERVED</h1>
-      </footer>
-    </>
+    <footer style={footerStyles.wrapper}>
+      <div style={footerStyles.container}>
+        <div style={footerStyles.brand}>© {new Date().getFullYear()} Alumni Connect</div>
+        <div style={footerStyles.links}>
+          <a href="#" style={footerStyles.link}>Contact</a>
+          <a href="#" style={footerStyles.link}>Privacy</a>
+          <a href="#" style={footerStyles.link}>Terms</a>
+        </div>
+        <div style={footerStyles.social}>
+          <div style={footerStyles.iconBtn}><FontAwesomeIcon icon={faFacebookF} /></div>
+          <div style={footerStyles.iconBtn}><FontAwesomeIcon icon={faLinkedinIn} /></div>
+          <div style={footerStyles.iconBtn}><FontAwesomeIcon icon={faTwitter} /></div>
+        </div>
+      </div>
+    </footer>
   )
 }
 

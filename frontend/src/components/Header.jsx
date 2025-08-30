@@ -1,47 +1,82 @@
 import React from 'react'
 import Button from './UI/Button'
 import { Link, useNavigate } from 'react-router-dom'
-// Use COntext for loggesin status
 import { AuthContext } from '../AuthProvider'
 import { useContext } from 'react'
+
+const headerStyles = {
+  wrapper: {
+    backgroundColor: '#2563EB',
+    color: '#ffffff',
+    borderBottom: '1px solid rgba(255,255,255,0.15)',
+    width: '100%'
+  },
+  container: {
+    maxWidth: '100vw',
+    margin: '0 auto',
+    padding: '14px 20px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%'
+  },
+  brand: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    fontWeight: 700,
+    fontSize: '20px',
+    color: '#ffffff',
+    textDecoration: 'none'
+  },
+  nav: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px'
+  },
+  link: {
+    color: '#ffffff',
+    textDecoration: 'none',
+    opacity: 0.95
+  }
+}
+
 const Header = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
-  // Handling logout Remove access token
+
   function handleLogout() {
-    alert("Are you sure to logout")
-    localStorage.removeItem('AccessToken');
-    localStorage.removeItem('RefreshToken');
+    if (!confirm('Are you sure you want to logout?')) return;
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     setIsLoggedIn(false);
-    console.log("Logged out");
-    
     navigate('/login')
   }
 
   return (
-    <>
-    <nav className='navbar container pt-3 pb-3 align-items-start'>
-        <Link to='/' className='navbar-brand text-light'>Stock Prediction Portal</Link>
-
-        <div>
-          {isLoggedIn ? (<>
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <Button text="Dashboard" href="/dashboard" />
-          <Button text="Logout" onClick={handleLogout} />
-        </div>
-
-
-          {/* <button className='btn btn-danger' onClick={handleLogout}>Logout</button> */}
-          </>) : (
-            <>
-            <Button text="login" href="/login"/>
-            &nbsp;
-            <Button text="register" href="/register" />
-            </>
-            )}
-        </div>
-    </nav>
-    </>
+    <header style={headerStyles.wrapper}>
+      <div style={headerStyles.container}>
+        <Link to='/' style={headerStyles.brand}>
+          <span>🎓 Alumni Connect</span>
+        </Link>
+        <nav style={headerStyles.nav}>
+          <Link to='/' style={headerStyles.link}>Home</Link>
+          <Link to='/profile' style={headerStyles.link}>Profile</Link>
+          <Link to='/events' style={headerStyles.link}>Events</Link>
+          {isLoggedIn ? (
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <Button text="Dashboard" href="/profile" />
+              <Button text="Logout" onClick={handleLogout} />
+            </div>
+          ) : (
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <Button text="Login" href="/login" />
+              <Button text="Register" href="/register" />
+            </div>
+          )}
+        </nav>
+      </div>
+    </header>
   )
 }
 
