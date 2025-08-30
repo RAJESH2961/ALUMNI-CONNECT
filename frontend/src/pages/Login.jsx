@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
-import styles from './Login.module.css';
-import axiosInstance from '../axiosInstance';
+import styles from '../components/Login.module.css';
+import axiosInstance from '../utils/axiosInstance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import confetti from 'canvas-confetti';
 
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../AuthProvider';
+import { AuthContext } from '../context/AuthProvider';
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });

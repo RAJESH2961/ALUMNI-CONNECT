@@ -34,12 +34,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "id", "email", "username", "role", "school",
+            "id", "first_name", "last_name", "email", "username", "role", "school",
             "specialization", "batch_year", "bio",
             "profile_image", "linkedin_url", "github_url", "portfolio_url",
             "badges", "is_approved", "profile_completed", "date_joined"
         ]
-
+        read_only_fields = ["id", "badges", "is_approved", "profile_completed", "date_joined"]
 
 #Registration code 
 

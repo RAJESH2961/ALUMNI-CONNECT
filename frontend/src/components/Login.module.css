@@ -1,5 +1,5 @@
 .loginContainer {
-  min-height: 100vh;
+  height: auto;
   width: 100%;
   background-color: #F3F4F6;
   display: flex;
