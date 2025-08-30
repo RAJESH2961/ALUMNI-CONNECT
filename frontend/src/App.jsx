@@ -16,7 +16,7 @@ import PrivateRoute from './PrivateRoute'
 import { PublicRoute } from './PublicRoute'
 import ActivateAccount from './ActivateAccount'
 
-PublicRoute
+// PublicRoute
 function App() {
 
   return (

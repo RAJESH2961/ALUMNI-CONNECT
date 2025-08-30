@@ -1,10 +1,12 @@
 .register-container {
-  min-height: 100vh;
+  height: auto;
+  width: 100%;
   background-color: #F3F4F6;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  flex: 1;
 }
 
 .register-form {

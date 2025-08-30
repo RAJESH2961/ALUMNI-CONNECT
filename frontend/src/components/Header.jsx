@@ -8,15 +8,17 @@ const headerStyles = {
   wrapper: {
     backgroundColor: '#2563EB',
     color: '#ffffff',
-    borderBottom: '1px solid rgba(255,255,255,0.15)'
+    borderBottom: '1px solid rgba(255,255,255,0.15)',
+    width: '100%'
   },
   container: {
-    maxWidth: '1100px',
+    maxWidth: '100vw',
     margin: '0 auto',
     padding: '14px 20px',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    width: '100%'
   },
   brand: {
     display: 'flex',

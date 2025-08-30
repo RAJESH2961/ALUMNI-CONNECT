@@ -6,18 +6,20 @@ const footerStyles = {
   wrapper: {
     backgroundColor: '#F3F4F6',
     color: '#1F2937',
-    marginTop: '40px',
-    borderTop: '1px solid #e5e7eb'
+    marginTop: 'auto',
+    borderTop: '1px solid #e5e7eb',
+    width: '100%'
   },
   container: {
-    maxWidth: '1100px',
+    maxWidth: '100vw',
     margin: '0 auto',
     padding: '24px 20px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: '20px',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    width: '100%'
   },
   brand: {
     fontWeight: 700,

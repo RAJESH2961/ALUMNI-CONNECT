@@ -3,15 +3,21 @@ import Button from './UI/Button';
 
 const heroStyles = {
   wrapper: {
-    backgroundColor: '#F3F4F6'
+    backgroundColor: '#F3F4F6',
+    width: '100%',
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column'
   },
   container: {
-    maxWidth: '1100px',
+    maxWidth: '100vw',
     margin: '0 auto',
     padding: '40px 20px',
     display: 'grid',
     gridTemplateColumns: '1.2fr 0.8fr',
-    gap: '30px'
+    gap: '30px',
+    width: '100%',
+    flex: 1
   },
   title: {
     color: '#1F2937',
