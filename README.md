@@ -1,78 +1,130 @@
 # 🎓 Alumni Connect Portal
 
-A full-stack web application built to bridge the gap between current students and alumni of an institution. This platform enables alumni networking, career guidance, event participation, and a thriving institutional community.
+[![GitHub Repo](https://img.shields.io/badge/GitHub-ALUMNI--CONNECT-blue)](https://github.com/RAJESH2961/ALUMNI-CONNECT)
+[![Python Version](https://img.shields.io/badge/Python-3.11-blue)]()
+[![React Version](https://img.shields.io/badge/React-18.2-blue)]()
+[![License](https://img.shields.io/badge/License-MIT-green)]()
 
 ---
 
-## 🌐 Live Repository
+A **full-stack web application** designed to bridge the gap between current students and alumni of an institution.  
+This platform promotes **alumni networking, mentorship, career guidance**, and a **vibrant institutional community**.
 
-🔗 [GitHub - Alumni Connect](https://github.com/RAJESH2961/ALUMNI-CONNECT)
+---
+
+## 🌐 Repository
+Access the source code on GitHub:  
+🔗 [ALUMNI-CONNECT](https://github.com/RAJESH2961/ALUMNI-CONNECT)
 
 ---
 
 ## 🧠 Project Overview
 
-The **Alumni Connect Portal** allows users to:
+**Alumni Connect Portal** empowers both students and alumni by providing:
 
-- 🧑‍🎓 Register as alumni or students
-- 🔐 Authenticate securely using JWT
-- 📝 Maintain and update personal and professional profiles
-- 🔍 View and search alumni directory
-- 📢 Post or view upcoming events and announcements
-- 💬 Facilitate communication between users
-- 🛠 Admin control over users and data
+- 🧑‍🎓 **User Registration:** Sign up as a student or alumni  
+- 🔐 **Secure Authentication:** JWT-based authentication for safe logins  
+- 📝 **Profile Management:** Maintain personal and professional information  
+- 🔍 **Alumni Directory:** Search and filter alumni by skills, batch, or location  
+- 📢 **Events & Announcements:** View or post institutional events  
+- 💬 **Messaging & Networking:** Direct communication within the portal  
+- 🛠 **Admin Controls:** Approve or manage users and content  
+
+This platform helps **students gain career insights** while enabling **alumni to give back to the community**.
 
 ---
 
-## ⚙️ Tech Stack Used
+## ⚙️ Tech Stack
 
 ### 📌 Frontend
-- **React.js**
-- **React Router**
-- **Axios**
-- **Tailwind CSS**
+- **React.js** for UI development  
+- **React Router** for SPA navigation  
+- **Axios** for API calls  
+- **Tailwind CSS** for modern, responsive styling  
 
 ### 📌 Backend
-- **Django**
-- **Django REST Framework**
-- **Simple JWT Authentication**
-- **CORS Headers**
+- **Django** as the web framework  
+- **Django REST Framework (DRF)** for API endpoints  
+- **Simple JWT Authentication** for secure token-based auth  
+- **django-cors-headers** to handle cross-origin requests  
 
 ### 📌 Database
-- **SQLite** (can be extended to PostgreSQL/MySQL)
+- **SQLite** for local development  
+- Easily upgradeable to **PostgreSQL** or **MySQL** for production  
 
 ---
 
-## 🚀 How to Run the Project Locally
+## 🚀 Setup Instructions
 
-### 1. Clone the Repository
-
+### 1️⃣ Clone Repository
 
 git clone https://github.com/RAJESH2961/ALUMNI-CONNECT.git
 cd ALUMNI-CONNECT
 
+
+### 2. Backend Setup (Django + DRF)
 cd backend
 
-# Create virtual environment
+### Create virtual environment (optional but recommended)
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate   # Mac/Linux
+venv\Scripts\activate      # Windows
 
-# Install dependencies
+### Install dependencies
 pip install -r requirements.txt
 
-# Apply migrations
-python manage.py makemigrations
+### Apply migrations
 python manage.py migrate
 
-# Create a superuser
+### Create superuser (for admin access)
 python manage.py createsuperuser
 
-# Run server
+### Run backend server
 python manage.py runserver
-cd ../frontend
+### Backend will run at http://127.0.0.1:8000/
 
-# Install dependencies
+### 3. Frontend Setup (React.js + Tailwind)
+### Open a new terminal in project root
+cd frontend
+
+### Install dependencies
 npm install
 
-# Start the development server
+### Start frontend development server
 npm start
+### Frontend will run at http://localhost:3000/
+
+
+# Backend API URL
+REACT_APP_API_URL=http://127.0.0.1:8000/api
+
+# Optional environment flag
+REACT_APP_ENV=development
+
+
+# Django Secret Key
+SECRET_KEY=your_django_secret_key_here
+
+# Debug mode (set False in production)
+DEBUG=True
+
+# Allowed hosts
+ALLOWED_HOSTS=127.0.0.1, localhost
+
+# Database settings (SQLite default)
+DB_NAME=db.sqlite3
+DB_USER=
+DB_PASSWORD=
+DB_HOST=
+DB_PORT=
+
+# JWT Settings
+JWT_SECRET=your_jwt_secret_key_here
+
+
+# Backend API URL
+REACT_APP_API_URL=http://127.0.0.1:8000/api
+
+# Optional environment flag
+REACT_APP_ENV=development
+
