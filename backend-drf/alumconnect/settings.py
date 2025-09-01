@@ -199,3 +199,13 @@ else:
     DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
 
+
+# Email backend configuration
+#Temporaty for development
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'grajesh2961@gmail.com'
+EMAIL_HOST_PASSWORD = 'jhbzkiphybwgoknb'  # NOT your real Gmail password
+DEFAULT_FROM_EMAIL = 'grajesh2961@gmail.com'
