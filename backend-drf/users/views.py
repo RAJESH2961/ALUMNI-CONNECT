@@ -35,22 +35,38 @@ class LoginView(APIView):
             return Response({'detail': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
 
         refresh = RefreshToken.for_user(user)
-        print("LOGIN SUCCESSFUL", flush=True)
 
         return Response({
             'access': str(refresh.access_token),
             'refresh': str(refresh)
         })
 
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import UserProfileSerializer
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .serializers import UserProfileSerializer
+
 class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user = request.user
-        if not user.is_approved:
-            return Response({"detail": "User not approved by admin."}, status=403)
         serializer = UserProfileSerializer(user)
         return Response(serializer.data)
+
+    def patch(self, request):
+        user = request.user
+        serializer = UserProfileSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 
 
 class RegisterView(generics.CreateAPIView):
@@ -111,12 +127,64 @@ class ResendActivationView(APIView):
             return Response({'detail': 'No inactive user found with this email.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ActivationView(APIView):
-    permission_classes = [AllowAny]
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.core import signing
+from django.contrib.auth import get_user_model
 
-    def post(self, request):
-        serializer = ActivationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'detail': 'Account activated successfully.'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+User = get_user_model()
+
+class ActivationView(APIView):
+    permission_classes = []
+
+    def get(self, request, token):
+        try:
+            data = signing.loads(token, salt='user-activation', max_age=60*60*24)  # 24h expiry
+        except signing.SignatureExpired:
+            return Response({'detail': 'Activation link expired.'}, status=status.HTTP_400_BAD_REQUEST)
+        except signing.BadSignature:
+            return Response({'detail': 'Invalid activation link.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        email = data['email']
+        username = data['username']
+        password = data['password']
+
+        if User.objects.filter(email=email).exists():
+            return Response({'detail': 'User already activated.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.create_user(
+            email=email,
+            username=username,
+            password=password,
+            is_active=True
+        )
+        return Response({'detail': 'Account activated successfully!'}, status=status.HTTP_200_OK)
+
+
+
+# Alumni page logic starts from here
+# views.py
+# views.py
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import get_user_model
+from .serializers import AlumniSerializer
+
+User = get_user_model()
+
+class AlumniListView(generics.ListAPIView):
+    serializer_class = AlumniSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = User.objects.filter(role="alumni", is_approved=True).order_by("batch_year", "last_name")
+        batch = self.request.query_params.get("batch")
+        school = self.request.query_params.get("school")
+
+        if batch:
+            queryset = queryset.filter(batch_year=batch)
+        if school:
+            queryset = queryset.filter(school=school)
+
+        return queryset

@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path  # pyright: ignore[reportMissingImports]
 from .views import LoginView, ProfileView, RegisterView, ActivateAccountView, ResendActivationView, ActivationView
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -9,5 +9,12 @@ urlpatterns = [
     path("profiles/", ProfileView.as_view(), name="user-profile"),
     # path("activate/<uidb64>/<token>/", ActivateAccountView.as_view(), name="activate-account"),
     path("resend-activation/", ResendActivationView.as_view(), name="resend-activation"),
-    path("activate/", ActivationView.as_view(), name="token-activate"),
+    path("activate/<str:token>/", ActivationView.as_view(), name="token-activate"),
 ]
+# Alumni page logic starts from here
+from .views import AlumniListView
+
+urlpatterns += [
+    path("alumni/", AlumniListView.as_view(), name="alumni-list"),
+]
+

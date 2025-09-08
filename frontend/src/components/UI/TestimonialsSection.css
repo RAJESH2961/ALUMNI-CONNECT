@@ -1,0 +1,30 @@
+.testimonials-section {
+    background-color: #f9f9f9;
+    padding: 4rem 2rem;
+  }
+  
+  .testimonials-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .testimonials-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .testimonials-subtitle {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 2rem;
+  }
+  
+  .testimonials-columns {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  

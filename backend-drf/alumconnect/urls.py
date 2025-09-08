@@ -22,6 +22,13 @@ from rest_framework import status
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
+
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include
+
 User = get_user_model()
 
 class ProtectedView(APIView):
@@ -66,7 +73,11 @@ urlpatterns = [
     path('api/posts/', include('posts.urls')),      # Posts app endpoints
     path('api/events/', include('events.urls')),    # ✅ Events app endpoints
     path('api/protected/', ProtectedView.as_view(), name='protected'),
+    path("api/profiles/", include("ai.urls")),  # ✅ mount AI endpoints under profiles
+
 ]
 
-
+# Serve media files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -34,12 +34,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "id", "email", "username", "role", "school",
+            "id", "first_name", "last_name", "email", "username", "role", "school",
             "specialization", "batch_year", "bio",
             "profile_image", "linkedin_url", "github_url", "portfolio_url",
             "badges", "is_approved", "profile_completed", "date_joined"
         ]
-
+        read_only_fields = ["id", "badges", "is_approved", "profile_completed", "date_joined"]
 
 #Registration code 
 
@@ -48,38 +48,65 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
+from django.core import signing
+
+from rest_framework import serializers
+from django.core.mail import EmailMultiAlternatives
+from django.core import signing
+from django.conf import settings
+
 class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True, min_length=8)
 
     def create(self, validated_data):
-        # Do not create user yet, just send activation email
+        # Send activation email (user not created yet)
         self.send_activation_email(validated_data)
         return validated_data
 
     def send_activation_email(self, data):
-        signer = signing.TimestampSigner()
+        # Create signed token
         token = signing.dumps(data, salt='user-activation')
-        activation_link = f"{settings.FRONTEND_URL}/api/activate/{token}/"
-        subject = "Welcome to Alumni Portal - Activate Your Account"
-        username = data.get('username', 'User') if isinstance(data, dict) else 'User'
-        email = data.get('email', '') if isinstance(data, dict) else ''
-        message = (
-            f"Dear {username},\n\n"
-            f"Welcome to the Alumni Portal!\n\n"
-            f"To complete your registration, please activate your account by clicking the link below:\n"
-            f"{activation_link}\n\n"
-            f"If you did not register for the Alumni Portal, please ignore this email.\n\n"
-            f"Best regards,\nAlumni Portal Team"
-        )
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [email],
-            fail_silently=False,
-        )
+
+        # Activation URL using frontend format
+        activation_url = f"{settings.FRONTEND_URL}/activate/{token}/"
+
+        # HTML email with clickable button
+        html_content = f"""
+        <html>
+          <body>
+            <p>Hi {data['username']},</p>
+            <p>Welcome! Click the button below to activate your account:</p>
+            <a href="{activation_url}" style="
+                display:inline-block;
+                padding:10px 20px;
+                font-size:16px;
+                color:white;
+                background-color:#4CAF50;
+                text-decoration:none;
+                border-radius:5px;
+            ">Activate Account</a>
+            <p>If you did not register, ignore this email.</p>
+          </body>
+        </html>
+        """
+
+        subject = "Activate Your Account"
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to_email = [data['email']]
+
+        # Send HTML email with error handling
+        try:
+            msg = EmailMultiAlternatives(subject, "", from_email, to_email)
+            msg.attach_alternative(html_content, "text/html")
+            msg.send(fail_silently=False)
+        except Exception as exc:
+            # In development with console backend, this won't be hit. In production, log for debugging.
+            print(f"[Activation Email Error] to={to_email} error={exc}", flush=True)
+            raise serializers.ValidationError('Failed to send activation email. Please try again later.')
 
 class ActivationSerializer(serializers.Serializer):
     token = serializers.CharField()
@@ -114,3 +141,24 @@ class ActivationSerializer(serializers.Serializer):
             is_active=True
         )
         return user
+
+
+
+# Alumni page logic starts from heree
+# serializers.py
+# Already exists
+from rest_framework import serializers
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+class AlumniSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "id", "first_name", "last_name", "email", "username", "role", "school",
+            "specialization", "batch_year", "bio",
+            "profile_image", "linkedin_url", "github_url", "portfolio_url",
+            "badges", "is_approved", "profile_completed", "date_joined"
+        ]
+        read_only_fields = ["id", "badges", "is_approved", "profile_completed", "date_joined"]

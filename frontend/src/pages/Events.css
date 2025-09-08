@@ -1,0 +1,244 @@
+.events-wrapper {
+    background: #f9fafb;
+    /* min-height: 100vh; */
+    padding: 30px 20px;
+  }
+  
+  .events-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .events-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #1d4ed8;
+    margin-bottom: 30px;
+  }
+  
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+  }
+  
+  .event-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+  }
+  
+  .event-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .event-image {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .event-description {
+    color: #4b5563;
+    margin-bottom: 15px;
+    line-height: 1.6;
+  }
+  
+  .event-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 15px;
+  }
+  
+  .participants-section {
+    margin-bottom: 15px;
+  }
+  
+  .participants-count {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .remaining-seats {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .remaining-seats.ok {
+    color: #059669;
+  }
+  
+  .remaining-seats.warning {
+    color: #dc2626;
+    font-weight: bold;
+  }
+  
+  .low-warning {
+    margin-left: 8px;
+    color: #dc2626;
+    font-size: 13px;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: #3b82f6;
+    transition: width 0.3s ease;
+  }
+  
+  .btn-register {
+    background: #1d4ed8;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .btn-register:hover {
+    background: #2563eb;
+  }
+  
+  .btn-disabled {
+    background: #9ca3af;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: not-allowed;
+  }
+  
+  .loading-text {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+  }
+  
+
+  .event-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 20px;
+  margin: 20px;
+  max-width: 400px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.event-title {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.event-description {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin-bottom: 12px;
+}
+
+.event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #374151;
+  margin-bottom: 15px;
+}
+
+.event-participants {
+  margin-bottom: 15px;
+}
+
+.participants {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.remaining.ok {
+  color: #059669;
+  font-weight: bold;
+}
+
+.remaining.low {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  transition: width 0.3s ease;
+}
+
+.register-btn {
+  width: 100%;
+  padding: 10px;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.register-btn:hover {
+  background: #1d4ed8;
+}
+
+.register-btn.disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.error-msg {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.success-msg {
+  background: #d1fae5;
+  color: #059669;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
