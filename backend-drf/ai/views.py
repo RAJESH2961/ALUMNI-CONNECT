@@ -7,7 +7,7 @@ import openai
 
 # Initialize client
 client = openai.OpenAI(
-    api_key="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",   # replace with env var in production
+    # api_key="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",   # replace with env var in production
     base_url="https://api.groq.com/openai/v1"
 )
 
