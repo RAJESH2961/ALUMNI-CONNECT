@@ -47,6 +47,8 @@ class CustomUser(AbstractUser):
     is_approved = models.BooleanField(default=False)  # type: ignore
     profile_completed = models.BooleanField(default=False)  # type: ignore
     date_joined = models.DateTimeField(auto_now_add=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)  # ✅ for Twilio
+
 
     def __str__(self):
         return f"{self.email} ({self.role})"

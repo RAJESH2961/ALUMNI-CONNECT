@@ -188,3 +188,9 @@ sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/django,react
 avatar
+
+
+
+
+# Environment variables
+.env

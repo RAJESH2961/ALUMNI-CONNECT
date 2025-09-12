@@ -217,3 +217,16 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # DEBUG for SMTP
 import logging
 logging.basicConfig(level=logging.DEBUG)
+
+
+
+#Twillo API
+TWILIO_ACCOUNT_SID = "your_account_sid"
+TWILIO_AUTH_TOKEN = "your_auth_token"
+TWILIO_PHONE_NUMBER = "+1234567890"  # your Twilio number
+
+
+from decouple import config
+
+# Get secret key
+GROQ_API_KEY = config("GROQ_API_KEY")

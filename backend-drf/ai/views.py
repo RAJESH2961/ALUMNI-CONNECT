@@ -6,13 +6,16 @@ from rest_framework import status
 import openai
 
 # Initialize client
+from django.conf import settings
+import openai
+
 client = openai.OpenAI(
-    # api_key="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",   # replace with env var in production
+    api_key=settings.GROQ_API_KEY,
     base_url="https://api.groq.com/openai/v1"
 )
 
 
-# ai/views.py
+
 
 # ai/views.py
 
