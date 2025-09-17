@@ -122,8 +122,8 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 32px;
-  margin-bottom: 40px;
+  gap: 25px;
+  margin-bottom: 30px;
 }
 
 /* ========== Cards ========== */
@@ -549,4 +549,305 @@
 .viewEventButton:hover {
   transform: translateY(-2px) scale(1.03);
   box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+
+
+/* ========== Animations ========== */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card,
+.eventCard,
+.alumniCard {
+  animation: fadeInUp 0.8s ease both;
+}
+
+/* Staggered animation for grids */
+.grid > div:nth-child(1),
+.alumniGrid > div:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.grid > div:nth-child(2),
+.alumniGrid > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.grid > div:nth-child(3),
+.alumniGrid > div:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ========== Event Cards Enhancements ========== */
+.eventCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 320px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.eventCard:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+}
+
+.eventTitle {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.eventDescription {
+  flex-grow: 1; /* fill space before footer */
+}
+
+/* ========== Alumni Cards Enhancements ========== */
+.alumniCard {
+  padding: 32px 24px;
+  position: relative;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  background: #fff;
+}
+
+.alumniCard:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+}
+
+.alumniImage {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  margin-bottom: 18px;
+  border: 5px solid #3b82f6;
+  transition: transform 0.3s ease;
+}
+
+.alumniCard:hover .alumniImage {
+  transform: scale(1.08);
+}
+
+.alumniName {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.alumniRole {
+  font-size: 17px;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+/* Buttons inside cards */
+.alumniButton,
+.viewEventButton,
+.viewAllButton {
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.alumniButton:hover,
+.viewEventButton:hover,
+.viewAllButton:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* ========== Responsive Fixes ========== */
+@media (max-width: 1024px) {
+  .grid,
+  .alumniGrid {
+    gap: 20px;
+  }
+
+  .eventCard,
+  .alumniCard {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .eventTitle {
+    font-size: 20px;
+  }
+  .alumniName {
+    font-size: 18px;
+  }
+  .alumniImage {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .eventCard,
+  .alumniCard {
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .viewAllButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+
+/* ========== Stats Section ========== */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+  margin-top: 40px;
+  margin-bottom: 80px;
+  text-align: center;
+}
+
+.statCard {
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+}
+
+.statNumber {
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 900;
+  color: #1d4ed8;
+  margin-bottom: 12px;
+}
+
+.statLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+
+
+
+/* ========== Testimonials Section Scrolling ========== */
+.testimonialsSection {
+  background-color: #f9f9f9;
+  padding: 4rem 2rem;
+}
+
+.testimonialsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.testimonialsTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.testimonialsColumnsWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: nowrap;
+}
+
+.testimonialsColumn {
+  flex: 1;
+  max-height: 450px;
+  overflow: hidden;
+  position: relative;
+}
+
+.testimonialsTrack {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: scrollUp linear infinite;
+}
+
+.testimonialsColumn:nth-child(1) .testimonialsTrack {
+  animation-duration: 15s;
+}
+.testimonialsColumn:nth-child(2) .testimonialsTrack {
+  animation-duration: 18s;
+}
+.testimonialsColumn:nth-child(3) .testimonialsTrack {
+  animation-duration: 20s;
+}
+
+.testimonialsColumn:hover .testimonialsTrack {
+  animation-play-state: paused;
+}
+
+.testimonialCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.testimonialImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.testimonialText {
+  font-style: italic;
+  margin-bottom: 8px;
+  color: #374151;
+}
+
+.testimonialName {
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #1f2937;
+}
+
+.testimonialRole {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* Scroll animation */
+@keyframes scrollUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .testimonialsColumnsWrapper {
+    flex-wrap: wrap;
+  }
+  .testimonialsColumn {
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 640px) {
+  .testimonialsColumn {
+    max-height: 300px;
+  }
 }

@@ -113,7 +113,7 @@ const Profile = () => {
   };
 
   const styles = {
-    wrapper: { minHeight:'100vh', padding:'50px 20px', fontFamily:'Arial, sans-serif', background:'#f0f2f5' },
+    wrapper: { padding:'50px 20px', fontFamily:'Arial, sans-serif', background:'#f0f2f5' },
     container: { maxWidth:'1100px', margin:'35px auto' },
     header: { display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px' },
     title: { fontSize:'30px', fontWeight:'bold', color:'#1E40AF' },

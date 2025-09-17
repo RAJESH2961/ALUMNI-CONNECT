@@ -4,7 +4,6 @@ import axiosInstance from "../utils/axiosInstance";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Home.module.css";
-// import styles from "./Event.module.css";
 import { TestimonialsColumn } from "../components/UI/TestimonialsColumn";
 
 const testimonials = [
@@ -32,15 +31,11 @@ const Home = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-
         const [eventsResponse, alumniResponse] = await Promise.all([
           axiosInstance.get("/api/events/"),
-          axiosInstance.get("/api/alumni/") // fetch alumni from backend
+          axiosInstance.get("/api/alumni/"),
         ]);
-
         setEvents(eventsResponse.data.slice(0, 3));
-
-        // Only approved alumni
         setAlumni(alumniResponse.data.filter(user => user.is_approved).slice(0, 3));
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -50,130 +45,171 @@ const Home = () => {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
   if (loading) return <div className={styles.loading}>Loading...</div>;
 
   return (
-    <>
-      <div className={styles.wrapper}>
-        <div className={styles.container}>
-          {/* Hero Section */}
-          <div className={styles.hero}>
-            <h1 className={styles.title}>Welcome to AlumniConnect 🎓</h1>
-            <p className={styles.subtitle}>
-              Stay Connected. Empower Your Legacy.
-            </p>
-            <p className={styles.subtitle}>
-              Join a vibrant network of past students, celebrate achievements, and discover new opportunities.
-            </p>
-            <Link to="/register" className={styles.ctaButton}>Join the Community</Link>
-          </div>
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        {/* Hero Section */}
+        <div className={styles.hero}>
+          <h1 className={styles.title}>Welcome to AlumniConnect 🎓</h1>
+          <p className={styles.subtitle}>Stay Connected. Empower Your Legacy.</p>
+          <p className={styles.subtitle}>
+            Join a vibrant network of past students, celebrate achievements, and discover new opportunities.
+          </p>
+          <Link to="/register" className={styles.ctaButton}>
+            Join the Community
+          </Link>
+        </div>
 
-          {/* Events Section */}
-          <section className={styles.section}>
-  <h2 className={styles.sectionTitle}>Upcoming Events</h2>
+        {/* Events Section */}
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Upcoming Events</h2>
+          <p className={styles.sectionSubtitle}>
+            Join upcoming events and connect with our alumni community
+          </p>
+
+          <div className={styles.grid}>
+            {events.map(event => (
+              <div key={event.id} className={styles.eventCard}>
+                <h3 className={styles.eventTitle}>{event.title}</h3>
+                <div className={styles.eventDate}>
+                  <FontAwesomeIcon icon={faCalendar} />{" "}
+                  {new Date(event.date).toLocaleDateString("en-US", {
+                    weekday: "short",
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </div>
+                <div className={styles.eventLocation}>📍 {event.location}</div>
+                <p className={styles.eventDescription}>{event.description}</p>
+
+                <div className={styles.progressBar}>
+                  <div
+                    className={styles.progressFill}
+                    style={{
+                      width: `${(event.current_participants / event.max_participants) * 100}%`,
+                    }}
+                  />
+                </div>
+                <div className={styles.progressText}>
+                  {event.current_participants} of {event.max_participants} participants
+                </div>
+
+                <Link to={`/events/${event.id}`} className={styles.viewEventButton}>
+                  View Details <FontAwesomeIcon icon={faArrowRight} />
+                </Link>
+              </div>
+            ))}
+          </div>
+          <div className={styles.centered}>
+            <Link to="/events" className={styles.viewAllButton}>
+              View All Events <FontAwesomeIcon icon={faArrowRight} />
+            </Link>
+          </div>
+        </section>
+
+        {/* Alumni Section */}
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Notable Alumni</h2>
+          <div className={styles.alumniGrid}>
+            {alumni.map(alum => (
+              <div key={alum.id} className={styles.alumniCard}>
+                <img
+                  src={alum.profile_image || "https://via.placeholder.com/120"}
+                  alt={alum.username}
+                  className={styles.alumniImage}
+                />
+                <h3 className={styles.alumniName}>{alum.username}</h3>
+                <p className={styles.alumniRole}>{alum.role}</p>
+                <p className={styles.alumniCompany}>{alum.company}</p>
+                <div className={styles.alumniActions}>
+                  {alum.linkedin_url && (
+                    <a
+                      href={alum.linkedin_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.alumniButton}
+                    >
+                      LinkedIn
+                    </a>
+                  )}
+                  {alum.email && (
+                    <a href={`mailto:${alum.email}`} className={styles.alumniButton}>
+                      Email
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className={styles.centered}>
+            <Link to="/alumni" className={styles.viewAllButton}>
+              View All Alumni <FontAwesomeIcon icon={faArrowRight} />
+            </Link>
+          </div>
+        </section>
+
+        {/* Stats Section */}
+<section className={styles.section}>
+  <h2 className={styles.sectionTitle}>Our Growing Network</h2>
   <p className={styles.sectionSubtitle}>
-    Join upcoming events and connect with our alumni community
+    Celebrating the strength of our alumni community and partner companies
   </p>
 
-  <div className={styles.grid}>
-    {events.map(event => (
-      <div key={event.id} className={styles.eventCard}>
-        {/* Event Title */}
-        <h3 className={styles.eventTitle}>{event.title}</h3>
+  <div className={styles.statsGrid}>
+    <div className={styles.statCard}>
+      <h3 className={styles.statNumber}>{alumni.length}+</h3>
+      <p className={styles.statLabel}>Registered Alumni</p>
+    </div>
 
-        {/* Date */}
-        <div className={styles.eventDate}>
-          <FontAwesomeIcon icon={faCalendar} />{" "}
-          {new Date(event.date).toLocaleDateString("en-US", {
-            weekday: "short",
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          })}
-        </div>
+    <div className={styles.statCard}>
+      <h3 className={styles.statNumber}>120+</h3>
+      <p className={styles.statLabel}>Partner Companies</p>
+    </div>
 
-        {/* Location */}
-        <div className={styles.eventLocation}>📍 {event.location}</div>
+    <div className={styles.statCard}>
+      <h3 className={styles.statNumber}>{events.length}</h3>
+      <p className={styles.statLabel}>Upcoming Events</p>
+    </div>
 
-        {/* Description */}
-        <p className={styles.eventDescription}>{event.description}</p>
-
-        {/* Participants */}
-        <div className={styles.progressBar}>
-          <div
-            className={styles.progressFill}
-            style={{
-              width: `${(event.current_participants / event.max_participants) * 100}%`,
-            }}
-          />
-        </div>
-        <div className={styles.progressText}>
-          {event.current_participants} of {event.max_participants} participants
-        </div>
-
-        {/* View Details Button */}
-        <Link to={`/events/`} className={styles.viewEventButton}>
-          View Details <FontAwesomeIcon icon={faArrowRight} />
-        </Link>
-      </div>
-    ))}
+    <div className={styles.statCard}>
+      <h3 className={styles.statNumber}>15+</h3>
+      <p className={styles.statLabel}>Countries Represented</p>
+    </div>
   </div>
 </section>
 
 
-          {/* Alumni Section */}
-          {/* Alumni Section */}
-{/* Alumni Section */}
-<section className={styles.section}>
-  <h2 className={styles.sectionTitle}>Notable Alumni</h2>
-  <div className={styles.alumniGrid}>
-    {alumni.map(alum => (
-      <div key={alum.id} className={styles.alumniCard}>
-        <img
-          src={alum.profile_image || "https://via.placeholder.com/120"}
-          alt={alum.username}
-          className={styles.alumniImage}
-        />
-        <h3 className={styles.alumniName}>{alum.username}</h3>
-        <p className={styles.alumniRole}>{alum.role}</p>
-        <p className={styles.alumniCompany}>{alum.company}</p>
-        <div className={styles.alumniActions}>
-          {alum.linkedin_url && (
-            <a href={alum.linkedin_url} target="_blank" rel="noopener noreferrer" className={styles.alumniButton}>
-              LinkedIn
-            </a>
-          )}
-          {alum.email && (
-            <a href={`mailto:${alum.email}`} className={styles.alumniButton}>
-              Email
-            </a>
-          )}
-        </div>
-      </div>
-    ))}
-  </div>
-</section>
-
-
-
-          {/* Testimonials Section */}
-          <section className="testimonials-section">
-            <div className="testimonials-container">
-              <h2 className="testimonials-title">See What Our Users Say</h2>
-              <div className="testimonials-columns-wrapper" style={{ display: "flex", gap: "20px" }}>
-                <TestimonialsColumn testimonials={firstColumn} duration={15} />
-                <TestimonialsColumn testimonials={secondColumn} duration={18} />
-                <TestimonialsColumn testimonials={thirdColumn} duration={20} />
+        {/* Testimonials Section */}
+<section className={styles.testimonialsSection}>
+  <div className={styles.testimonialsContainer}>
+    <h2 className={styles.testimonialsTitle}>See What Our Users Say</h2>
+    <div className={styles.testimonialsColumnsWrapper}>
+      {[firstColumn, secondColumn, thirdColumn].map((column, colIndex) => (
+        <div key={colIndex} className={styles.testimonialsColumn}>
+          <div className={styles.testimonialsTrack}>
+            {[...column, ...column].map((t, index) => (
+              <div key={index} className={styles.testimonialCard}>
+                <img src={t.image} alt={t.name} className={styles.testimonialImage} />
+                <p className={styles.testimonialText}>"{t.text}"</p>
+                <h4 className={styles.testimonialName}>{t.name}</h4>
+                <p className={styles.testimonialRole}>{t.role}</p>
               </div>
-            </div>
-          </section>
+            ))}
+          </div>
         </div>
+      ))}
+    </div>
+  </div>
+</section>
+
       </div>
-    </>
+    </div>
   );
 };
 
