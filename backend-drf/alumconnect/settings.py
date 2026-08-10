@@ -229,4 +229,4 @@ TWILIO_PHONE_NUMBER = "+1234567890"  # your Twilio number
 from decouple import config
 
 # Get secret key
-GROQ_API_KEY = config("GROQ_API_KEY")
+GROQ_API_KEY = config("GROQ_API_KEY", default="")

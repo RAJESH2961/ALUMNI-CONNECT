@@ -3,16 +3,20 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-import openai
-
-# Initialize client
 from django.conf import settings
-import openai
 
-client = openai.OpenAI(
-    api_key=settings.GROQ_API_KEY,
-    base_url="https://api.groq.com/openai/v1"
-)
+try:
+    import openai
+except ImportError:  # pragma: no cover - optional runtime dependency
+    openai = None
+
+# Initialize client when the optional dependency is available
+client = None
+if openai is not None and settings.GROQ_API_KEY:
+    client = openai.OpenAI(
+        api_key=settings.GROQ_API_KEY,
+        base_url="https://api.groq.com/openai/v1"
+    )
 
 
 
@@ -39,6 +43,12 @@ def generate_bio(request):
     - Specialization: {profile.specialization if profile else ""}
     - Batch Year: {profile.batch_year if profile else ""}
     """
+
+    if client is None:
+        return Response(
+            {"error": "AI service is unavailable because the optional OpenAI dependency is not configured."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE,
+        )
 
     try:
         response = client.responses.create(
